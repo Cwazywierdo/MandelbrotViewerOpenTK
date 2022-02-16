@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using System;
@@ -12,12 +13,13 @@ namespace MandelbrotViewerOpenTK
 {
     class MainWindow : GameWindow
     {
+        private Camera camera;
         private FractalDisplay fractalDisplay;
 
         public MainWindow(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
-
+            camera = new Camera(this);
         }
 
         protected override void OnLoad()
@@ -49,7 +51,9 @@ namespace MandelbrotViewerOpenTK
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
-            fractalDisplay.Draw();
+            Matrix4 transformationMatrix = camera.GetTransformation();
+
+            fractalDisplay.Draw(transformationMatrix);
 
             Context.SwapBuffers();
 

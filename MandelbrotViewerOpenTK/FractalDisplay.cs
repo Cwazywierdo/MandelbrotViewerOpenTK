@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace MandelbrotViewerOpenTK
         };
 
         private static Shader shader;
+        private static int transformationMatrixLocation;
 
         private static int vertexBufferObject;
         private static int vertexArrayObject;
@@ -25,6 +27,8 @@ namespace MandelbrotViewerOpenTK
         public static void OnLoad()
         {
             shader = new Shader(@"shaders/FractalDisplay.vert", @"shaders/FractalDisplay.frag");
+
+            transformationMatrixLocation = shader.GetUniformLocation("transformationMatrix");
 
             vertexBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
@@ -45,9 +49,11 @@ namespace MandelbrotViewerOpenTK
             GL.DeleteVertexArray(vertexArrayObject);
         }
 
-        public void Draw()
+        public void Draw(Matrix4 transformationMatrix)
         {
             shader.Use();
+            GL.UniformMatrix4(transformationMatrixLocation, true, ref transformationMatrix);
+
             GL.BindVertexArray(vertexArrayObject);
 
             GL.DrawArrays(PrimitiveType.TriangleFan, 0, 4);

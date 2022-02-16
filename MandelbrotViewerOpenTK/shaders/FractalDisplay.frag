@@ -1,6 +1,6 @@
 ﻿#version 330 core
 
-//uniform mat4 projectionMatrix;
+uniform mat4 transformationMatrix;
 //uniform float threshold;
 //uniform int maxIterations;
 
@@ -8,8 +8,7 @@ out vec4 FragColor;
 
 void main()
 {
-	//vec2 c = gl_FragCoord.xy * projectionMatrix;
-	vec2 c = gl_FragCoord.xy / 200;
+	vec4 c = (gl_FragCoord * transformationMatrix);
 	float threshold = 3;
 	int maxIterations = 100;
 
@@ -28,14 +27,6 @@ void main()
 			return;
 		}
 	}
-
-	/*if(c.x*c.x + c.y*c.y < 1){
-		FragColor = vec4(0,0,0,1);
-	}
-	else{
-		FragColor = vec4(1,1,1,1);
-	}*/
-
 	
 	FragColor = vec4(mod(i / 20f,1), mod(i / 20f + .4f,1), mod(i / 20f + .7f,1), 1);
 }
