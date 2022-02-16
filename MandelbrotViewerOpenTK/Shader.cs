@@ -65,6 +65,7 @@ namespace MandelbrotViewerOpenTK
         public void Use() => GL.UseProgram(Handle);
 
         public int GetAttribLocation(string name) => GL.GetAttribLocation(Handle, name);
+        public int GetUniformLocation(string name) => GL.GetUniformLocation(Handle, name);
 
     }
 }
