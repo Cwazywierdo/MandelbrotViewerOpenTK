@@ -59,7 +59,8 @@ namespace MandelbrotViewerOpenTK
         protected override void OnResize(ResizeEventArgs e)
         {
             GL.Viewport(0, 0, e.Width, e.Height);
-
+            //Might remove later if it gets too expensive
+            OnRenderFrame(new FrameEventArgs());
             base.OnResize(e);
         }
     }
