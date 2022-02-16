@@ -22,19 +22,19 @@ namespace MandelbrotViewerOpenTK
 
         protected override void OnLoad()
         {
+            base.OnLoad();
+
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
             FractalDisplay.OnLoad();
 
             fractalDisplay = new FractalDisplay();
-
-            base.OnLoad();
         }
         protected override void OnUnload()
         {
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindVertexArray(0);
+            GL.UseProgram(0);
 
             FractalDisplay.OnUnload();
 

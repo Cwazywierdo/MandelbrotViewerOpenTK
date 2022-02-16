@@ -9,33 +9,33 @@ namespace MandelbrotViewerOpenTK
 {
     class FractalDisplay
     {
-        private static float[] vertices =
+        private static readonly float[] vertices =
         {
             -1f, -1f, 0f,
-            1f, -1f, 0f,
-            -1f, 1f, 0f,
             1f, -1f, 0f,
             1f, 1f, 0f,
             -1f, 1f, 0f,
         };
-        private static int vertexBufferObject;
-        private static int vertexArrayObject;
 
         private static Shader shader;
 
+        private static int vertexBufferObject;
+        private static int vertexArrayObject;
+
         public static void OnLoad()
         {
-            vertexArrayObject = GL.GenVertexArray();
-            GL.BindVertexArray(vertexArrayObject);
+            shader = new Shader(@"shaders/FractalDisplay.vert", @"shaders/FractalDisplay.frag");
 
             vertexBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
             GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
 
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
+            vertexArrayObject = GL.GenVertexArray();
+            GL.BindVertexArray(vertexArrayObject);
 
-            shader = new Shader(@"shaders/FractalDisplay.vert", @"shaders/FractalDisplay.frag");
+            int positionIndex = shader.GetAttribLocation("position");
+            GL.VertexAttribPointer(positionIndex, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(positionIndex);
         }
 
         public static void OnUnload()
@@ -47,13 +47,10 @@ namespace MandelbrotViewerOpenTK
 
         public void Draw()
         {
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.DynamicDraw);
-
             shader.Use();
-
             GL.BindVertexArray(vertexArrayObject);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 6);
+
+            GL.DrawArrays(PrimitiveType.TriangleFan, 0, 4);
         }
     }
 }

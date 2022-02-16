@@ -7,7 +7,7 @@ namespace MandelbrotViewerOpenTK
 {
     class Shader : IDisposable
     {
-        readonly int Handle;
+        private readonly int Handle;
         private bool disposedValue = false;
 
         public Shader(string vertexPath, string fragmentPath)
@@ -64,7 +64,7 @@ namespace MandelbrotViewerOpenTK
 
         public void Use() => GL.UseProgram(Handle);
 
-        
+        public int GetAttribLocation(string name) => GL.GetAttribLocation(Handle, name);
 
     }
 }
