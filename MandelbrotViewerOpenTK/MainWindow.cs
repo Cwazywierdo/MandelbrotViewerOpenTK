@@ -12,7 +12,7 @@ namespace MandelbrotViewerOpenTK
 {
     class MainWindow : GameWindow
     {
-        FractalDisplay fractalDisplay;
+        private FractalDisplay fractalDisplay;
 
         public MainWindow(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
