@@ -2,7 +2,7 @@
 
 uniform dmat4 transformationMatrix;
 //uniform float threshold;
-//uniform int maxIterations;
+uniform int maxIterations = 100;
 
 out vec4 FragColor;
 
@@ -11,7 +11,6 @@ void main()
 	dvec4 c = gl_FragCoord;
 	c = c * transformationMatrix;
 	double threshold = 2;
-	int maxIterations = 5000;
 
 	double x = 0;
 	double y = 0;
