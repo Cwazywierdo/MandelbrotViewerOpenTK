@@ -63,6 +63,12 @@ namespace MandelbrotViewerOpenTK
                 camera.zoom /= 1 + (zoomFactor * e.Time);
             if (input.IsKeyDown(Keys.Minus))
                 camera.zoom *= 1 + (zoomFactor * e.Time);
+
+            if (input.IsKeyDown(Keys.Period))
+                fractalDisplay.maxIterations++;
+            if (input.IsKeyDown(Keys.Comma))
+                fractalDisplay.maxIterations--;
+
             base.OnUpdateFrame(e);
         }
 

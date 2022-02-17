@@ -21,15 +21,19 @@ namespace MandelbrotViewerOpenTK
 
         private static Shader shader;
         private static int transformationMatrixLocation;
+        private static int maxIterationsLocation;
 
         private static int vertexBufferObject;
         private static int vertexArrayObject;
+
+        public int maxIterations = 100;
 
         public static void OnLoad()
         {
             shader = new Shader(@"shaders/FractalDisplay.vert", @"shaders/FractalDisplay.frag");
 
             transformationMatrixLocation = shader.GetUniformLocation("transformationMatrix");
+            maxIterationsLocation = shader.GetUniformLocation("maxIterations");
 
             vertexBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
@@ -54,6 +58,7 @@ namespace MandelbrotViewerOpenTK
         {
             shader.Use();
             GL.UniformMatrix4(transformationMatrixLocation, true, ref transformationMatrix);
+            GL.Uniform1(maxIterationsLocation, maxIterations);
             GL.BindVertexArray(vertexArrayObject);
 
             GL.DrawArrays(PrimitiveType.TriangleFan, 0, 4);
