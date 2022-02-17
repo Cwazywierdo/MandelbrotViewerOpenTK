@@ -1,6 +1,6 @@
-﻿#version 330 core
+﻿#version 400 core
 
-uniform mat4 transformationMatrix;
+uniform dmat4 transformationMatrix;
 //uniform float threshold;
 //uniform int maxIterations;
 
@@ -8,17 +8,18 @@ out vec4 FragColor;
 
 void main()
 {
-	vec4 c = (gl_FragCoord * transformationMatrix);
-	float threshold = 3;
-	int maxIterations = 100;
+	dvec4 c = gl_FragCoord;
+	c = c * transformationMatrix;
+	double threshold = 2;
+	int maxIterations = 5000;
 
-	float x = 0;
-	float y = 0;
+	double x = 0;
+	double y = 0;
 	int i = 0;
 
 	while(x*x + y*y <= threshold*threshold)
 	{
-		float oldX = x;
+		double oldX = x;
 		x = x*x - y*y + c.x;
 		y = 2 * oldX * y + c.y;
 		if(i++ == maxIterations)

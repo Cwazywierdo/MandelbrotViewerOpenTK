@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿//using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
@@ -49,11 +50,10 @@ namespace MandelbrotViewerOpenTK
             GL.DeleteVertexArray(vertexArrayObject);
         }
 
-        public void Draw(Matrix4 transformationMatrix)
+        public void Draw(Matrix4d transformationMatrix)
         {
             shader.Use();
             GL.UniformMatrix4(transformationMatrixLocation, true, ref transformationMatrix);
-
             GL.BindVertexArray(vertexArrayObject);
 
             GL.DrawArrays(PrimitiveType.TriangleFan, 0, 4);
