@@ -17,6 +17,9 @@ namespace MandelbrotViewerOpenTK
         private Camera camera;
         private FractalDisplay fractalDisplay;
 
+        private const double scrollSpeed = 1f;
+        private const double zoomFactor = 1f;
+
         public MainWindow(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
         {
@@ -46,6 +49,20 @@ namespace MandelbrotViewerOpenTK
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
+            var input = KeyboardState;
+            if (input.IsKeyDown(Keys.Up))
+                camera.Translation += Vector2d.UnitY * camera.zoom * scrollSpeed * e.Time;
+            if (input.IsKeyDown(Keys.Down))
+                camera.Translation += -Vector2d.UnitY * camera.zoom * scrollSpeed * e.Time;
+            if (input.IsKeyDown(Keys.Right))
+                camera.Translation += Vector2d.UnitX * camera.zoom * scrollSpeed * e.Time;
+            if (input.IsKeyDown(Keys.Left))
+                camera.Translation += -Vector2d.UnitX * camera.zoom * scrollSpeed * e.Time;
+
+            if (input.IsKeyDown(Keys.Equal))
+                camera.zoom /= 1 + (zoomFactor * e.Time);
+            if (input.IsKeyDown(Keys.Minus))
+                camera.zoom *= 1 + (zoomFactor * e.Time);
             base.OnUpdateFrame(e);
         }
 

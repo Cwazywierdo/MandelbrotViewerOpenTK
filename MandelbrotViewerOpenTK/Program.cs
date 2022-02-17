@@ -18,7 +18,7 @@ namespace MandelbrotViewerOpenTK
                 Title = "Mandelbrot Viewer",
                 StartFocused = true,
                 StartVisible = true,
-                IsEventDriven = true,
+                IsEventDriven = false,
             };
             using (MainWindow mainWindow = new MainWindow(gameWindowSettings, nativeWindowSettings))
             {
