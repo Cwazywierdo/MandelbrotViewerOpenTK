@@ -2,6 +2,7 @@
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,21 +44,22 @@ namespace MandelbrotViewerOpenTK
             base.OnUnload();
         }
 
-        protected override void OnUpdateFrame(FrameEventArgs args)
+        protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            base.OnUpdateFrame(args);
+            base.OnUpdateFrame(e);
         }
-        protected override void OnRenderFrame(FrameEventArgs args)
+
+        protected override void OnRenderFrame(FrameEventArgs e)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
-            Matrix4 transformationMatrix = camera.GetTransformation();
+            Matrix4d transformationMatrix = camera.GetTransformation();
 
             fractalDisplay.Draw(transformationMatrix);
 
             Context.SwapBuffers();
 
-            base.OnRenderFrame(args);
+            base.OnRenderFrame(e);
         }
 
         protected override void OnResize(ResizeEventArgs e)
