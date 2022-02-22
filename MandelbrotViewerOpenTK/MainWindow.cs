@@ -49,24 +49,25 @@ namespace MandelbrotViewerOpenTK
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            var input = KeyboardState;
-            if (input.IsKeyDown(Keys.Up))
+            KeyboardState kbState = KeyboardState;
+
+            if (kbState.IsKeyDown(Keys.Up))
                 camera.Translation += Vector2d.UnitY * camera.zoom * scrollSpeed * e.Time;
-            if (input.IsKeyDown(Keys.Down))
+            if (kbState.IsKeyDown(Keys.Down))
                 camera.Translation += -Vector2d.UnitY * camera.zoom * scrollSpeed * e.Time;
-            if (input.IsKeyDown(Keys.Right))
+            if (kbState.IsKeyDown(Keys.Right))
                 camera.Translation += Vector2d.UnitX * camera.zoom * scrollSpeed * e.Time;
-            if (input.IsKeyDown(Keys.Left))
+            if (kbState.IsKeyDown(Keys.Left))
                 camera.Translation += -Vector2d.UnitX * camera.zoom * scrollSpeed * e.Time;
 
-            if (input.IsKeyDown(Keys.Equal))
+            if (kbState.IsKeyDown(Keys.Equal))
                 camera.zoom /= 1 + (zoomFactor * e.Time);
-            if (input.IsKeyDown(Keys.Minus))
+            if (kbState.IsKeyDown(Keys.Minus))
                 camera.zoom *= 1 + (zoomFactor * e.Time);
 
-            if (input.IsKeyDown(Keys.Period))
+            if (kbState.IsKeyDown(Keys.Period))
                 fractalDisplay.maxIterations++;
-            if (input.IsKeyDown(Keys.Comma))
+            if (kbState.IsKeyDown(Keys.Comma))
                 fractalDisplay.maxIterations--;
 
             base.OnUpdateFrame(e);
