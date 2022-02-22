@@ -50,6 +50,13 @@ namespace MandelbrotViewerOpenTK
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             KeyboardState kbState = KeyboardState;
+            MouseState mState = MouseState;
+            Matrix4d transformationMatrix = camera.GetTransformation();
+
+            // Position.Y is subtracted from ClientSize.Y because while OpenTK uses Y-up world coordinates,
+            // the screen coordinate system uses Y-down.
+            Vector3 mousePos = new Vector3(mState.Position.X, ClientSize.Y - mState.Position.Y, 0);
+            Vector3d mouseWorldPos = Vector3d.TransformPosition(mousePos, transformationMatrix);
 
             if (kbState.IsKeyDown(Keys.Up))
                 camera.Translation += Vector2d.UnitY * camera.zoom * scrollSpeed * e.Time;
