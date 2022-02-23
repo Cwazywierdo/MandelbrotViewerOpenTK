@@ -17,9 +17,9 @@ namespace MandelbrotViewerOpenTK
         private Camera camera;
         private FractalDisplay fractalDisplay;
 
-        private const double scrollSpeed = 1f;
-        private const double kbZoomFactor = 1f;
-        private const double mZoomFactor = 1.1f;
+        private const double scrollSpeed = 1d;
+        private const double kbZoomFactor = 1d;
+        private const double mZoomFactor = 1.1d;
         private const double thresholdDelta = 1d;
 
         public MainWindow(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)

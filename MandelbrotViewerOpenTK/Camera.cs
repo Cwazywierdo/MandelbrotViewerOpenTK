@@ -11,7 +11,7 @@ namespace MandelbrotViewerOpenTK
     class Camera
     {
         public Vector2d Translation { get; set; }
-        public double zoom = 1f;
+        public double zoom = 1d;
 
         private readonly NativeWindow nativeWindow;
 
