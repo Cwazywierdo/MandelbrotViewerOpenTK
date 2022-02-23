@@ -22,11 +22,13 @@ namespace MandelbrotViewerOpenTK
         private static Shader shader;
         private static int transformationMatrixLocation;
         private static int maxIterationsLocation;
+        private static int divergenceThresholdLocation;
 
         private static int vertexBufferObject;
         private static int vertexArrayObject;
 
         public int maxIterations = 100;
+        public double divergenceThreshold = 2d;
 
         public static void OnLoad()
         {
@@ -34,6 +36,7 @@ namespace MandelbrotViewerOpenTK
 
             transformationMatrixLocation = shader.GetUniformLocation("transformationMatrix");
             maxIterationsLocation = shader.GetUniformLocation("maxIterations");
+            divergenceThresholdLocation = shader.GetUniformLocation("divergenceThreshold");
 
             vertexBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
@@ -59,6 +62,7 @@ namespace MandelbrotViewerOpenTK
             shader.Use();
             GL.UniformMatrix4(transformationMatrixLocation, true, ref transformationMatrix);
             GL.Uniform1(maxIterationsLocation, maxIterations);
+            GL.Uniform1(divergenceThresholdLocation, divergenceThreshold);
             GL.BindVertexArray(vertexArrayObject);
 
             GL.DrawArrays(PrimitiveType.TriangleFan, 0, 4);

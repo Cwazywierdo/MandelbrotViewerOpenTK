@@ -1,8 +1,8 @@
 ﻿#version 400 core
 
 uniform dmat4 transformationMatrix;
-//uniform float threshold;
 uniform int maxIterations = 100;
+uniform double divergenceThreshold;
 
 out vec4 FragColor;
 
@@ -10,13 +10,12 @@ void main()
 {
 	dvec4 c = gl_FragCoord;
 	c = c * transformationMatrix;
-	double threshold = 2;
 
 	double x = 0;
 	double y = 0;
 	int i = 0;
 
-	while(x*x + y*y <= threshold*threshold)
+	while(x*x + y*y <= divergenceThreshold*divergenceThreshold)
 	{
 		double oldX = x;
 		x = x*x - y*y + c.x;

@@ -20,6 +20,7 @@ namespace MandelbrotViewerOpenTK
         private const double scrollSpeed = 1f;
         private const double kbZoomFactor = 1f;
         private const double mZoomFactor = 1.1f;
+        private const double thresholdDelta = 1d;
 
         public MainWindow(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
@@ -93,6 +94,11 @@ namespace MandelbrotViewerOpenTK
                 fractalDisplay.maxIterations++;
             if (kbState.IsKeyDown(Keys.Comma))
                 fractalDisplay.maxIterations--;
+
+            if (kbState.IsKeyDown(Keys.RightBracket))
+                fractalDisplay.divergenceThreshold += thresholdDelta * e.Time;
+            if (kbState.IsKeyDown(Keys.LeftBracket))
+                fractalDisplay.divergenceThreshold -= thresholdDelta * e.Time;
 
             base.OnUpdateFrame(e);
         }
