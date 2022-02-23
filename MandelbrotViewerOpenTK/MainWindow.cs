@@ -19,6 +19,9 @@ namespace MandelbrotViewerOpenTK
 
         private const double scrollSpeed = 1f;
         private const double kbZoomFactor = 1f;
+        private const double mZoomFactor = 5f;
+
+        private Vector2d mouseWorldPosLastFrame = Vector2d.Zero;
 
         public MainWindow(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
             : base(gameWindowSettings, nativeWindowSettings)
@@ -51,21 +54,34 @@ namespace MandelbrotViewerOpenTK
         {
             KeyboardState kbState = KeyboardState;
             MouseState mState = MouseState;
-            Matrix4d transformationMatrix = camera.GetTransformation();
 
             // Position.Y is subtracted from ClientSize.Y because while OpenTK uses Y-up world coordinates,
             // the screen coordinate system uses Y-down.
             Vector3 mousePos = new Vector3(mState.Position.X, ClientSize.Y - mState.Position.Y, 0);
-            Vector3d mouseWorldPosV3d = Vector3d.TransformPosition(mousePos, transformationMatrix);
-            Vector2d mouseWorldPos = new Vector2d(mouseWorldPosV3d.X, mouseWorldPosV3d.Y);
 
             if (mState.IsButtonDown(MouseButton.Left))
             {
+                Matrix4d transformationMatrix = camera.GetTransformation();
                 Vector3d mouseDelta = new Vector3d(mState.Position - mState.PreviousPosition);
                 Vector3d.TransformVector(in mouseDelta, in transformationMatrix, out mouseDelta);
                 // negative y because screen coordinates are Y-down
                 Vector2d mouseWorldDeltaV2d = new Vector2d(mouseDelta.X, -mouseDelta.Y);
                 camera.Translation += -mouseWorldDeltaV2d;
+            }
+
+            if(mState.ScrollDelta.Y != 0)
+            {
+                Matrix4d transformationMatrix = camera.GetTransformation();
+                Vector3d mouseWorldPosV3d = Vector3d.TransformPosition(mousePos, transformationMatrix);
+                Vector2d mouseWorldPos = new Vector2d(mouseWorldPosV3d.X, mouseWorldPosV3d.Y);
+
+                camera.zoom *= Math.Pow(1 + mZoomFactor * e.Time, -mState.ScrollDelta.Y);
+
+                Matrix4d newTransformationMatrix = camera.GetTransformation();
+                Vector3d newMouseWorldPosV3d = Vector3d.TransformPosition(mousePos, newTransformationMatrix);
+                Vector2d newMouseWorldPos = new Vector2d(newMouseWorldPosV3d.X, newMouseWorldPosV3d.Y);
+
+                camera.Translation += mouseWorldPos - newMouseWorldPos;
             }
 
             if (kbState.IsKeyDown(Keys.Up))
