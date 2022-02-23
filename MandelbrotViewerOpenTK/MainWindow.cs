@@ -93,12 +93,13 @@ namespace MandelbrotViewerOpenTK
             if (kbState.IsKeyDown(Keys.Period))
                 fractalDisplay.maxIterations++;
             if (kbState.IsKeyDown(Keys.Comma))
-                fractalDisplay.maxIterations--;
+                fractalDisplay.maxIterations = Math.Max(fractalDisplay.maxIterations - 1, 0);
 
             if (kbState.IsKeyDown(Keys.RightBracket))
                 fractalDisplay.divergenceThreshold += thresholdDelta * e.Time;
             if (kbState.IsKeyDown(Keys.LeftBracket))
-                fractalDisplay.divergenceThreshold -= thresholdDelta * e.Time;
+                fractalDisplay.divergenceThreshold = Math.Max(0,
+                    fractalDisplay.divergenceThreshold - thresholdDelta * e.Time);
 
             base.OnUpdateFrame(e);
         }
