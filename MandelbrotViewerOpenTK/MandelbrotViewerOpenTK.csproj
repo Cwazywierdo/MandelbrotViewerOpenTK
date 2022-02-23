@@ -10,11 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenTK" Version="4.6.7" />
+    <None Include="shaders/**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="Xcopy &quot;$(ProjectDir)shaders&quot; &quot;$(ProjectDir)$(OutDir)shaders\&quot; /Y" />
-  </Target>
+  <ItemGroup>
+    <PackageReference Include="OpenTK" Version="4.6.7" />
+  </ItemGroup>
 
 </Project>
