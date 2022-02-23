@@ -22,15 +22,15 @@ void main()
 		y = 2 * oldX * y + c.y;
 		if(i++ == maxIterations)
 		{
-			FragColor = vec4(0,0,0,1);
+			FragColor = vec4(0, 0, 0, 1);
 			return;
 		}
 	}
 	
-	FragColor = vec4(mod(i / 20.0,1), mod(i / 20.0 + 0.4,1), mod(i / 20.0 + 0.7,1), 1);
+	FragColor = vec4(mod(i / 20.0, 1), mod(i / 20.0 + 0.4, 1), mod(i / 20.0 + 0.7, 1), 1);
 }
 
 float modI(float a,float b) {
-    float m=a-floor((a+0.5)/b)*b;
-    return floor(m+0.5);
+    float m = a - floor((a + 0.5) / b) * b;
+    return floor(m + 0.5);
 }
