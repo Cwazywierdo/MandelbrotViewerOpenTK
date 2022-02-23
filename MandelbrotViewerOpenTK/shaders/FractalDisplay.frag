@@ -27,7 +27,7 @@ void main()
 		}
 	}
 	
-	FragColor = vec4(mod(i / 20f,1), mod(i / 20f + .4f,1), mod(i / 20f + .7f,1), 1);
+	FragColor = vec4(mod(i / 20.0,1), mod(i / 20.0 + 0.4,1), mod(i / 20.0 + 0.7,1), 1);
 }
 
 float modI(float a,float b) {
