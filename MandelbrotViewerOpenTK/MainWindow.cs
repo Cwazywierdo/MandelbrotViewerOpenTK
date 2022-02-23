@@ -56,7 +56,17 @@ namespace MandelbrotViewerOpenTK
             // Position.Y is subtracted from ClientSize.Y because while OpenTK uses Y-up world coordinates,
             // the screen coordinate system uses Y-down.
             Vector3 mousePos = new Vector3(mState.Position.X, ClientSize.Y - mState.Position.Y, 0);
-            Vector3d mouseWorldPos = Vector3d.TransformPosition(mousePos, transformationMatrix);
+            Vector3d mouseWorldPosV3d = Vector3d.TransformPosition(mousePos, transformationMatrix);
+            Vector2d mouseWorldPos = new Vector2d(mouseWorldPosV3d.X, mouseWorldPosV3d.Y);
+
+            if (mState.IsButtonDown(MouseButton.Left))
+            {
+                Vector3d mouseDelta = new Vector3d(mState.Position - mState.PreviousPosition);
+                Vector3d.TransformVector(in mouseDelta, in transformationMatrix, out mouseDelta);
+                // negative y because screen coordinates are Y-down
+                Vector2d mouseWorldDeltaV2d = new Vector2d(mouseDelta.X, -mouseDelta.Y);
+                camera.Translation += -mouseWorldDeltaV2d;
+            }
 
             if (kbState.IsKeyDown(Keys.Up))
                 camera.Translation += Vector2d.UnitY * camera.zoom * scrollSpeed * e.Time;
