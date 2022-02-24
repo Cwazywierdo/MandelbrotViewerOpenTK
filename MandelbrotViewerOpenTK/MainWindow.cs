@@ -16,6 +16,7 @@ namespace MandelbrotViewerOpenTK
     {
         private Camera camera;
         private FractalDisplay fractalDisplay;
+        private FractalTraceback fractalTraceback;
 
         private const double scrollSpeed = 1d;
         private const double kbZoomFactor = 1d;
@@ -35,8 +36,10 @@ namespace MandelbrotViewerOpenTK
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
             FractalDisplay.OnLoad();
+            FractalTraceback.OnLoad();
 
             fractalDisplay = new FractalDisplay();
+            fractalTraceback = new FractalTraceback(fractalDisplay);
         }
         protected override void OnUnload()
         {
@@ -45,6 +48,7 @@ namespace MandelbrotViewerOpenTK
             GL.UseProgram(0);
 
             FractalDisplay.OnUnload();
+            FractalTraceback.OnUnload();
 
             base.OnUnload();
         }
@@ -129,6 +133,7 @@ namespace MandelbrotViewerOpenTK
             Matrix4d transformationMatrix = camera.GetTransformation();
 
             fractalDisplay.Draw(transformationMatrix);
+            fractalTraceback.Draw(transformationMatrix);
 
             Context.SwapBuffers();
 
