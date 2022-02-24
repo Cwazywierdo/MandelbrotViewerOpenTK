@@ -7,4 +7,4 @@
  - adjust max iterations: </>
  - adjust divergence threshold: [/]
 
- *Requires OpenGL4.0*
+ *Requires **OpenGL 4.0** and **.NET 5.0 Runtime***
