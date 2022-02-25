@@ -57,7 +57,7 @@ namespace MandelbrotViewerOpenTK
         {
             KeyboardState kbState = KeyboardState;
             MouseState mState = MouseState;
-            Matrix4d transformationMatrix = camera.GetTransformation();
+            Matrix4d fromViewSpaceTransformation = camera.GetFromViewSpaceTransformation();
             bool altHeld = kbState.IsKeyDown(Keys.LeftAlt) || kbState.IsKeyDown(Keys.RightAlt);
 
             // Position.Y is subtracted from ClientSize.Y because while OpenTK uses Y-up world coordinates,
@@ -68,7 +68,7 @@ namespace MandelbrotViewerOpenTK
             if (mState.IsButtonDown(MouseButton.Left))
             {
                 Vector3d mouseDelta = new Vector3d(mState.Delta);
-                Vector3d.TransformVector(in mouseDelta, in transformationMatrix, out mouseDelta);
+                Vector3d.TransformVector(in mouseDelta, in fromViewSpaceTransformation, out mouseDelta);
                 // negative y because screen coordinates are Y-down
                 camera.Translation += -new Vector2d(mouseDelta.X, -mouseDelta.Y);
             }
@@ -82,7 +82,7 @@ namespace MandelbrotViewerOpenTK
             if (kbState.IsKeyDown(Keys.Left))
                 camera.Translation += -Vector2d.UnitX * camera.zoom * scrollSpeed * e.Time;
 
-            transformationMatrix = camera.GetTransformation();
+            fromViewSpaceTransformation = camera.GetFromViewSpaceTransformation();
 
             // zooming
             double appliedZoom = Math.Pow(mZoomFactor, -mState.ScrollDelta.Y);
@@ -92,7 +92,7 @@ namespace MandelbrotViewerOpenTK
                 appliedZoom *= 1 + (kbZoomFactor * e.Time);
 
             if (appliedZoom != 0)
-                ApplyZoom(appliedZoom, ref transformationMatrix, mousePos, !altHeld);
+                ApplyZoom(appliedZoom, ref fromViewSpaceTransformation, mousePos, !altHeld);
 
             if (kbState.IsKeyDown(Keys.Period))
                 fractalDisplay.maxIterations++;
@@ -114,7 +114,7 @@ namespace MandelbrotViewerOpenTK
             Vector2d mouseWorldPos = new Vector2d(mouseWorldPosV3d.X, mouseWorldPosV3d.Y);
 
             camera.zoom *= zoomFactor;
-            transformationMatrix = camera.GetTransformation();
+            transformationMatrix = camera.GetFromViewSpaceTransformation();
 
             if (aroundCursor)
             {
@@ -122,7 +122,7 @@ namespace MandelbrotViewerOpenTK
                 Vector2d newMouseWorldPos = new Vector2d(newMouseWorldPosV3d.X, newMouseWorldPosV3d.Y);
 
                 camera.Translation += mouseWorldPos - newMouseWorldPos;
-                transformationMatrix = camera.GetTransformation();
+                transformationMatrix = camera.GetFromViewSpaceTransformation();
             }
         }
 
@@ -130,10 +130,10 @@ namespace MandelbrotViewerOpenTK
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
-            Matrix4d transformationMatrix = camera.GetTransformation();
+            Matrix4d transformationMatrix = camera.GetFromViewSpaceTransformation();
 
             fractalDisplay.Draw(transformationMatrix);
-            fractalTraceback.Draw(transformationMatrix);
+            fractalTraceback.Draw(camera.GetFromWorldSpaceTransformation());
 
             Context.SwapBuffers();
 
