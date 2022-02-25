@@ -22,14 +22,12 @@ namespace MandelbrotViewerOpenTK
 
         public Matrix4d GetTransformation()
         {
-            Vector3d translationV3 = new Vector3d(Translation.X, Translation.Y, 0);
             Vector2i clientSize = nativeWindow.ClientSize;
-            Vector3d aspectScale = new Vector3d((double)clientSize.X / clientSize.Y, 1, 1);
-            return Matrix4d.CreateTranslation(new Vector3(-clientSize.X/2, -clientSize.Y/2, 0)) *
-                Matrix4d.Scale(zoom) *
-                Matrix4d.Scale(aspectScale) *
-                Matrix4d.CreateOrthographic(clientSize.X, clientSize.Y, -1, 1) *
-                Matrix4d.CreateTranslation(translationV3);
+
+            return
+                Matrix4d.CreateTranslation(-clientSize.X / 2d, -clientSize.Y / 2d, 0) *
+                Matrix4d.Scale(2d * zoom / clientSize.Y, 2d * zoom / clientSize.Y, 1) *
+                Matrix4d.CreateTranslation(Translation.X, Translation.Y, 0);
         }
     }
 }
