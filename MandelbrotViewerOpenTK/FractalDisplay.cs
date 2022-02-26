@@ -66,5 +66,12 @@ namespace MandelbrotViewerOpenTK
 
             GL.DrawArrays(PrimitiveType.TriangleFan, 0, 4);
         }
+
+        public void IteratePoint(ref Vector2d z, Vector2d c)
+        {
+            double tmpX = z.X;
+            z.X = z.X * z.X - z.Y * z.Y + c.X;
+            z.Y = 2 * tmpX * z.Y + c.Y;
+        }
     }
 }
