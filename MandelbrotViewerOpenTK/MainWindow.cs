@@ -105,6 +105,15 @@ namespace MandelbrotViewerOpenTK
                 fractalDisplay.divergenceThreshold = Math.Max(0,
                     fractalDisplay.divergenceThreshold - thresholdDelta * e.Time);
 
+            if (mState.IsButtonDown(MouseButton.Right))
+            {
+                Vector3d mouseWorldPosV3d = Vector3d.TransformPosition(mousePos, fromViewSpaceTransformation);
+                Vector2d mouseWorldPos = new Vector2d(mouseWorldPosV3d.X, mouseWorldPosV3d.Y);
+                fractalTraceback.SetTracebackPoint(mouseWorldPos);
+            }
+
+            fractalTraceback.Update();
+
             base.OnUpdateFrame(e);
         }
 
