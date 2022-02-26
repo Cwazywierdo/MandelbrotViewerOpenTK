@@ -1,8 +1,8 @@
-﻿#version 400 core
+﻿#version 410 core
 
 uniform dmat4 transformationMatrix;
 
-in vec3 position;
+in dvec3 position;
 
 void main()
 {
